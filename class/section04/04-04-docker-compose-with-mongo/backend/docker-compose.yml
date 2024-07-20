@@ -1,0 +1,24 @@
+
+# 컴퓨터들
+services:
+
+  # 컴퓨터 이름
+  express-computer:
+    # 빌드 경로
+    build:
+      context: .
+      dockerfile: Dockerfile.express
+    # 포트포워딩
+    ports:
+      - 4000:4000
+
+  database-computer:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    ports:
+      - 27017:27017
+
+
+# 실행 방법 docker-compose build, docker-compose up
+# 종료 docker-compose stop
