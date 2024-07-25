@@ -20,7 +20,7 @@ import { Board } from './apis/boards/entities/board.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'dlthdus!03',
+      password: '******',
       database: 'myproject',
       entities: [Board],
       synchronize: true,
