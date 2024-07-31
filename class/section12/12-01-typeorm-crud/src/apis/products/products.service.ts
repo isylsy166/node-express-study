@@ -3,10 +3,10 @@ import { CreateProductInput } from './dto/create-product.input';
 import { Repository } from 'typeorm';
 import { Product } from './\bentities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-
-interface IProductsServiceCreate {
-  createProductInput: CreateProductInput;
-}
+import {
+  IProductsServiceCreate,
+  IProductsServiceFindOne,
+} from './interfaces/products-service.interface';
 
 @Injectable({ scope: Scope.DEFAULT }) // 싱글톤 구분
 export class productsService {
@@ -16,7 +16,7 @@ export class productsService {
     private readonly productsRepository: Repository<Product>, //
   ) {}
 
-  // 상품 등록 & 조회
+  // 상품 등록
   create({ createProductInput }: IProductsServiceCreate): Promise<Product> {
     const result = this.productsRepository.save({
       ...createProductInput,
@@ -34,5 +34,15 @@ export class productsService {
     // }
 
     return result;
+  }
+
+  // 상품 조회 - 하나만
+  findOne({ productId }: IProductsServiceFindOne): Promise<Product> {
+    return this.productsRepository.findOne({ where: { id: productId } });
+  }
+
+  // 상품 조회 - 여러개 : 여러개라 배열로 받기
+  findAll(): Promise<Product[]> {
+    return this.productsRepository.find();
   }
 }

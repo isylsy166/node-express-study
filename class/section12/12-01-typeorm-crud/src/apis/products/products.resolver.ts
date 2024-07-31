@@ -1,4 +1,4 @@
-import { Args, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { productsService } from './products.service';
 import { CreateProductInput } from './dto/create-product.input';
 import { Product } from './\bentities/product.entity';
@@ -10,7 +10,8 @@ export class productsResolver {
     private readonly productsService: productsService, //
   ) {}
 
-  // 상품 등록 & 조회
+  // 상품 등록
+  @Mutation(() => Product)
   createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput, //
   ): Promise<Product> {
@@ -22,5 +23,19 @@ export class productsResolver {
 
     // 2. 결과 메시지만 간단히 보내주기
     // return '상품이 등록되었습니다.';
+  }
+
+  // 상품 조회 - 하나만
+  @Query(() => Product)
+  fetchProduct(
+    @Args('productId') productId: string, //
+  ): Promise<Product> {
+    return this.productsService.findOne({ productId });
+  }
+
+  // 상품 조회 - 모두
+  @Query(() => [Product])
+  fetchProducts(): Promise<Product[]> {
+    return this.productsService.findAll();
   }
 }
