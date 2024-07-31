@@ -1,0 +1,23 @@
+# 컴퓨터들
+services:
+  # 컴퓨터 이름
+  express-computer:
+    # 빌드 경로
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # 포트포워딩
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.docker
+
+  database-computer:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'mydocker'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+# 실행 방법 docker-compose build, docker-compose up
+# 종료 docker-compose stop
